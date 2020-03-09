@@ -21,7 +21,6 @@ def main():
         raise SystemExit()
 
     # Factor a randomly generated number or a given number.
-    print(args)
     if args.digits is not None:
         num = gen_rand_int(args.digits)
     else:
