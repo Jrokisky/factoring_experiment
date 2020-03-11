@@ -61,7 +61,7 @@ def find_factor(n, method, verbose=True):
         current, peak = tm.get_traced_memory()
         tm.stop()
         if verbose:
-            print(f"\tTD | Factor: {td_factor} Run: {run_td} Peak Mem: {peak /10**6}MB") 
+            print(f"\tTD | Factor: {td_factor} Run: {run_td} Peak Mem: {peak} bytes") 
         return td_factor, run_td, peak
 
     # Find a factor via pollard's rho.
@@ -74,7 +74,7 @@ def find_factor(n, method, verbose=True):
         current, peak = tm.get_traced_memory()
         tm.stop()
         if verbose:
-            print(f"\tPR | Factor: {pr_factor} Run: {run_pr} Peak Mem: {peak /10**6}MB") 
+            print(f"\tPR | Factor: {pr_factor} Run: {run_pr} Peak Mem: {peak} bytes") 
         return pr_factor, run_pr, peak
 
 
@@ -102,7 +102,12 @@ def pollards_rho(num):
         y = fn(fn(y))
         d = m.gcd(abs(x-y), num)
 
-    # Since we are only computing costs, we ignore the failure d = n.
+        # Retry with a new seed value
+        if d == num:
+            x = r.randint(2, 100)
+            y = x
+            d = 1
+
     return d
 
 
@@ -116,57 +121,32 @@ def gen_rand_int(num_digits):
 def gen_semiprimes(return_factors=False):
     primes = [
         10007,
-        44701,
-        65537,
-        65701,
-        90709,
-        99989,
         99991,
         400307,
-        400313,
-        400321,
         400331,
         1000003,
-        1023571,
-        1074701,
-        1120573,
-        1203793,
-        1258723,
-        2233753,
-        2535373,
-        2935241,
-        3241423,
-        10000019,
         10916449,
         14494619,
-        14641661,
-        14689861,
-        14829047,
-        18303877,
-        18518809,
-        18771947,
         100000007,
-        191681099,
-        263123573,
-        333667001,
-        387423899,
-        452942827,
-        511729877,
-        627626947,
-        733353337,
-        812182027,
-        923850761,
         949889989,
         5915587277,
-        1500450271,
-        3267000013,
-        5754853343,
-        4093082899,
-        9576890767,
-        3628273133,
-        2860486313,
-        5463458053,
-        3367900313
+        3367900313,
+        73534323133,
+        30369896303,
+        101740496633,
+        353373727757,
+        3531577135439,
+        9095665192937,
+        27985032798461,
+        81744303091421,
+        320255973501901,
+        973369606963379,
+        2357353373727757,
+        5111111111111119,
+        37124508045065437,
+        74747474747474747,
+        618819619619660099,
+        444444666868899899
     ]
     semiprimes = []
 
