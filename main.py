@@ -49,7 +49,7 @@ def main():
         print("----------------------------------------------------\n")
 
 
-def find_factor(n, method):
+def find_factor(n, method, verbose=True):
 
     # Find a factor via trial division.
     if method == 'trial_division':
@@ -60,8 +60,9 @@ def find_factor(n, method):
         run_td = end_td - start_td
         current, peak = tm.get_traced_memory()
         tm.stop()
-        print(f"\tTD | Factor: {td_factor} Run: {run_td} Peak Mem: {peak /10**6}MB") 
-        return td_factor, run_td
+        if verbose:
+            print(f"\tTD | Factor: {td_factor} Run: {run_td} Peak Mem: {peak /10**6}MB") 
+        return td_factor, run_td, peak
 
     # Find a factor via pollard's rho.
     elif method == 'pollards_rho':
@@ -72,8 +73,9 @@ def find_factor(n, method):
         run_pr = end_pr - start_pr
         current, peak = tm.get_traced_memory()
         tm.stop()
-        print(f"\tPR | Factor: {pr_factor} Run: {run_pr} Peak Mem: {peak /10**6}MB") 
-        return pr_factor, run_pr
+        if verbose:
+            print(f"\tPR | Factor: {pr_factor} Run: {run_pr} Peak Mem: {peak /10**6}MB") 
+        return pr_factor, run_pr, peak
 
 
 # Find a factor via trial division.
