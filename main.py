@@ -55,7 +55,10 @@ def trial_division(num):
     while n**2 <= num:
         if num % n == 0:
             return n
-        n += 1
+        if n == 2:
+            n += 1
+        else:
+            n += 2
     return num
 
 # Find a factor via pollard's rho.
@@ -70,6 +73,7 @@ def pollards_rho(num):
         y = fn(fn(y))
         d = m.gcd(abs(x-y), num)
 
+    # Since we are only computing costs, we ignore the failure d = n.
     return d
 
 
