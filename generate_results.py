@@ -12,11 +12,11 @@ with open('./results_pollards_rho.txt','w') as f:
 
 for n in tqdm(nums):
 
-	with open('./results_trial_division.txt','w') as f:
+	with open('./results_trial_division.txt','a') as f:
 		res = find_factor(n[0], 'trial_division', verbose=False)
 		f.write(','.join([str(n[0]),str(n[1]),str(n[2]),str(res[0]),str(res[1]),str(res[2])])+'\n')
 
-	with open('./results_pollards_rho.txt','w') as f:
+	with open('./results_pollards_rho.txt','a') as f:
 		res = find_factor(n[0], 'pollards_rho', verbose=False)
 		f.write(','.join([str(n[0]),str(n[1]),str(n[2]),str(res[0]),str(res[1]),str(res[2])])+'\n')
 
