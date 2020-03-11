@@ -2,6 +2,7 @@ import random as r
 import argparse
 import timeit as t
 import math as m
+import tracemalloc as tm
 
 # Good test numbers:
 #    -> 636086005275917759
@@ -52,20 +53,26 @@ def find_factor(n, method):
 
     # Find a factor via trial division.
     if method == 'trial_division':
+        tm.start()
         start_td = t.default_timer()
         td_factor = trial_division(n)
         end_td = t.default_timer()
         run_td = end_td - start_td
-        print("\tTD | Factor: " + str(td_factor) + " Run: " + str(run_td)) 
+        current, peak = tm.get_traced_memory()
+        tm.stop()
+        print(f"\tTD | Factor: {td_factor} Run: {run_td} Peak Mem: {peak /10**6}MB") 
         return td_factor, run_td
 
     # Find a factor via pollard's rho.
     elif method == 'pollards_rho':
+        tm.start()
         start_pr = t.default_timer()
         pr_factor = pollards_rho(n)
         end_pr = t.default_timer()
         run_pr = end_pr - start_pr
-        print("\tPR | Factor: " + str(pr_factor) + " Run: " + str(run_pr)) 
+        current, peak = tm.get_traced_memory()
+        tm.stop()
+        print(f"\tPR | Factor: {pr_factor} Run: {run_pr} Peak Mem: {peak /10**6}MB") 
         return pr_factor, run_pr
 
 
