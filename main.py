@@ -7,6 +7,14 @@ import math as m
 #    -> 636086005275917759
 #    -> 17314412934193618477343869685312819749443744906661
 
+# General Notes:
+# * my laptop could not factor 26635471789425906547647385926040984830917970985852013232301594943048742010847353 using pollard's rho method in 10 hours.
+#
+#
+#
+#
+#
+
 def main():
 
     # Parse user arguments.
@@ -33,21 +41,33 @@ def main():
         print("Finding factor of number: " + str(n) + "\n")
         # Find a factor via trial division.
         if args.method == 'trial_division' or args.method == 'both':
-            start_td = t.default_timer()
-            td_factor = trial_division(n)
-            end_td = t.default_timer()
-            run_td = end_td - start_td
-            print("\tTD | Factor: " + str(td_factor) + " Run: " + str(run_td)) 
-
+            find_factor(n, 'trial_division')
         # Find a factor via pollard's rho.
         if args.method == 'pollards_rho' or args.method == 'both':
-            start_pr = t.default_timer()
-            pr_factor = pollards_rho(n)
-            end_pr = t.default_timer()
-            run_pr = end_pr - start_pr
-            print("\tPR | Factor: " + str(pr_factor) + " Run: " + str(run_pr)) 
-
+            find_factor(n, 'pollards_rho')
         print("----------------------------------------------------\n")
+
+
+def find_factor(n, method):
+
+    # Find a factor via trial division.
+    if method == 'trial_division':
+        start_td = t.default_timer()
+        td_factor = trial_division(n)
+        end_td = t.default_timer()
+        run_td = end_td - start_td
+        print("\tTD | Factor: " + str(td_factor) + " Run: " + str(run_td)) 
+        return td_factor, run_td
+
+    # Find a factor via pollard's rho.
+    elif method == 'pollards_rho':
+        start_pr = t.default_timer()
+        pr_factor = pollards_rho(n)
+        end_pr = t.default_timer()
+        run_pr = end_pr - start_pr
+        print("\tPR | Factor: " + str(pr_factor) + " Run: " + str(run_pr)) 
+        return pr_factor, run_pr
+
 
 # Find a factor via trial division.
 def trial_division(num):
@@ -84,7 +104,7 @@ def gen_rand_int(num_digits):
         rand += r.randint(0, 9) * (10 ** n)
     return rand    
 
-def gen_semiprimes():
+def gen_semiprimes(return_factors=False):
     primes = [
         10007,
         44701,
@@ -93,39 +113,12 @@ def gen_semiprimes():
         90709,
         99989,
         99991,
-        400009,
-        400031,
-        400033,
-        400051,
-        400067,
-        400069,
-        400087,
-        400093,
-        400109,
-        400123,
-        400151,
-        400157,
-        400187,
-        400199,
-        400207,
-        400217,
-        400237,
-        400243,
-        400247,
-        400249,
-        400261,
-        400277,
-        400291,
-        400297,
         400307,
         400313,
         400321,
         400331,
         1000003,
         1023571,
-        1026481,
-        1042687,
-        1073563,
         1074701,
         1120573,
         1203793,
@@ -143,6 +136,18 @@ def gen_semiprimes():
         18303877,
         18518809,
         18771947,
+        100000007,
+        191681099,
+        263123573,
+        333667001,
+        387423899,
+        452942827,
+        511729877,
+        627626947,
+        733353337,
+        812182027,
+        923850761,
+        949889989,
         5915587277,
         1500450271,
         3267000013,
@@ -160,7 +165,10 @@ def gen_semiprimes():
         for r in primes:
             s = p * r
             if s not in semiprimes:
-                semiprimes.append(s)
+                if return_factors:
+                    semiprimes.append((s,p,r))
+                else:
+                    semiprimes.append(s)
 
     return semiprimes
         
