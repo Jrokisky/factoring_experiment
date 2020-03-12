@@ -92,24 +92,21 @@ def trial_division(num):
 
 # Find a factor via pollard's rho.
 def pollards_rho(num):
-    x = 2
-    y = 2
-    d = 1
+    i = 1
+    x = r.randint(0, num - 1)
+    y = x
+    k = 2
 
-    fn = lambda x: (x**2 + 1) % num
-    while d == 1:
-        x = fn(x)
-        y = fn(fn(y))
-        d = m.gcd(abs(x-y), num)
+    while True:
+        i = i + 1
+        x = (x**2 - 1) % num
+        d = m.gcd(abs(y-x), num)
 
-        # Retry with a new seed value
-        if d == num:
-            x = r.randint(2, 100)
+        if d == num: return num
+        elif d != 1: return d
+        elif i == k:
             y = x
-            d = 1
-
-    return d
-
+            k = 2 * k
 
 # Generate a random integer of a certain number of digits.
 def gen_rand_int(num_digits):
