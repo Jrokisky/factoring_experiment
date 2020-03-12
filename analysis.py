@@ -44,8 +44,8 @@ plt.legend(['Trial Division','Pollard\'s Rho'])
 plt.savefig('space.png')
 
 # Trial division time regression analysis.
-def f(x, p):
-    return p * x**(1/2)
+def f(x, p, b):
+    return p * x**(1/2) + b
 p_opt, p_cov = curve_fit(f, df_td['n'], df_td['run_pr'])
 print('Trial division time optimal parameter:',p_opt)
 
@@ -56,8 +56,8 @@ p_opt, p_cov = curve_fit(f, df_td['n'], df_td['peak'])
 print('Trial division space optimal parameter:',p_opt)
 
 # Pollard's Rho time regression analysis.
-def f(x, p):
-    return p * x**(1/4)
+def f(x, p, b):
+    return p * x**(1/4) + b
 p_opt, p_cov = curve_fit(f, df_pr['n'], df_pr['run_pr'])
 print('Pollard\'s Rho time optimal parameter:',p_opt)
 
